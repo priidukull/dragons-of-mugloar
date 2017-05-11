@@ -34,10 +34,13 @@ During initial analysis of the problem I came up with the following interfaces:
 
     interface Outcome {
         Result result;
-        String reason;
+        Reason reason;
         Outcome(Response response) {}
         interface Result {
             boolean isWon();
+        }
+        interface Reason {
+            String asText();
         }
     }
 
