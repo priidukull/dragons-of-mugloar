@@ -32,10 +32,11 @@ During initial analysis of the problem I came up with the following interfaces:
         Dragon dragon(Knight knight) {}
     }
 
-    interface Outcome {
+    interface Solution {
         Result result;
         Reason reason;
-        Outcome(Response response) {}
+        int gameId;
+        Solution(Dragon dragon, int gameId) {}
         interface Result {
             boolean isWon();
         }
