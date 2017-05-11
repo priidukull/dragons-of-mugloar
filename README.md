@@ -44,7 +44,7 @@ During initial analysis of the problem I came up with the following interfaces:
         }
     }
 
-    interface Repository {
+    interface KnightRepository {
         Knight get(int id);
         Knight getAny();
     }
