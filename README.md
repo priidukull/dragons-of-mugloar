@@ -48,3 +48,16 @@ During initial analysis of the problem I came up with the following interfaces:
     interface KnightRepository {
         Knight any();
     }
+
+### On Test-Driven Development
+There will be two kinds of tests that drive this solution:
+1) The acceptance test: dragons fighting against 100 knights with a success rate of 60% or better.
+2) A unit test, where fight against a specific knight is simulated. Each unit test will initially be losing and I will improve the code until that unit test passes (and none of the other unit tests fail).
+
+While it is generally a good practice, to avoid that unit tests make calls to external API's, I will have my unit tests do exactly that, because this project will not need to be maintained and mocking EVERYTHING would be a bore.
+
+After each test I will run the acceptance test to measure total process.
+
+### Development
+##### First test
+I will randomly choose a knight who comes with normal weather, make a test case of it and solve the test case.
