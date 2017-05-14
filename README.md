@@ -11,13 +11,19 @@ API research has revealed that:
 ##### Design
 During initial analysis of the problem I came up with the following interfaces:
 
-    interface Knight {
-        int attack;
-        int armor;
-        int agility;
-        int endurance;
-        String name;
+
+    interface Game {
+        Knight knight;
         Weather weather;
+        int id;
+        Game() {}
+        interface Knight {
+            int attack;
+            int armor;
+            int agility;
+            int endurance;
+            String name;
+        }
         interface Weather {
             String type;
             Weather(String soap) {}
@@ -36,17 +42,13 @@ During initial analysis of the problem I came up with the following interfaces:
         Result result;
         Reason reason;
         int gameId;
-        Solution(Dragon dragon, int gameId) {}
+        Solution(Dragon dragon, Game game) {}
         interface Result {
             boolean isWon();
         }
         interface Reason {
             String asText();
         }
-    }
-
-    interface KnightRepository {
-        Knight any();
     }
 
 ### On Test-Driven Development
