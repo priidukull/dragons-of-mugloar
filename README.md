@@ -12,24 +12,6 @@ API research has revealed that:
 During initial analysis of the problem I came up with the following interfaces:
 
 
-    interface Game {
-        Knight knight;
-        Weather weather;
-        int id;
-        Game() {}
-        interface Knight {
-            int attack;
-            int armor;
-            int agility;
-            int endurance;
-            String name;
-        }
-        interface Weather {
-            String type;
-            Weather(String soap) {}
-        }
-    }
-
     interface Dragon {
         int scaleThickness;
         int clawSharpness;
@@ -42,12 +24,33 @@ During initial analysis of the problem I came up with the following interfaces:
         Result result;
         Reason reason;
         int gameId;
-        Battle(Dragon dragon, Game game) {}
+        Battle(Dragon dragon, Encounter encounter) {}
         interface Result {
             boolean isWon();
         }
         interface Reason {
             String asText();
+        }
+    }
+    
+    interface Encounter {
+        Knight knight;
+        Weather weather;
+        Encounter() {
+            this.knight = Knight();
+            this.weather = Weather();
+        }
+        interface Knight {
+            int attack;
+            int armor;
+            int agility;
+            int endurance;
+            String name;
+            Knight Knight() {}
+        }
+        interface Weather {
+            String type;
+            Weather(String soap) {}
         }
     }
 
@@ -63,3 +66,5 @@ After each test I will run the acceptance test to measure total process.
 ### Development
 ##### First test
 I will randomly choose a knight who comes with normal weather, make a test case of it and solve the test case.
+
+However, before I get to write tests about battles, I needed to write tests for constructing the Encounter. First a test on constructing a Knight.
