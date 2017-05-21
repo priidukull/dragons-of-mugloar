@@ -6,13 +6,15 @@ import dragonsOfMugloar.dao.EncounterDAO;
 
 import java.io.IOException;
 
-public class Knight {
+class Knight {
     int attack;
     int armor;
     int agility;
     int endurance;
     String name;
     int encounterId;
+
+    Knight() {}
 
     Knight(EncounterDAO encounterDAO) throws UnirestException, IOException {
         JsonNode data = encounterDAO.knight();

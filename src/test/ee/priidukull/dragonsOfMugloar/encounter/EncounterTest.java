@@ -36,4 +36,17 @@ public class EncounterTest {
         Assert.assertEquals(Weather.HOT, encounter4.weather);
         Assert.assertEquals(Weather.RAINY, encounter5.weather);
     }
+
+    @Test
+    public void winEncounterTest() throws Exception {
+        Knight knight = new Knight();
+        knight.encounterId = 8396126;
+        knight.attack = 7;
+        knight.armor = 2;
+        knight.agility = 6;
+        knight.endurance = 5;
+        Encounter encounter = new Encounter(knight, Weather.NORMAL);
+        System.out.println(encounter.outcome.reason.asText());
+        assertEquals(Result.VICTORY, encounter.outcome.result);
+    }
 }

@@ -17,6 +17,14 @@ public class Encounter {
     int id;
     Outcome outcome;
 
+    Encounter(Knight knight, Weather weather) throws UnexpectedResult, UnirestException, IOException {
+        this.dao = new EncounterDAO();
+        this.knight = knight;
+        this.weather = weather;
+        this.id = this.knight.encounterId;
+        resolve();
+    }
+
     public Encounter(EncounterDAO encounterDAO) throws IOException, UnirestException, UnexpectedResult {
         this.dao = encounterDAO;
         this.knight = new Knight(encounterDAO);

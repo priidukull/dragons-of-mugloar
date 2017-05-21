@@ -16,6 +16,6 @@ class Dragon {
     }
 
     String payload() throws IOException {
-        return "{\"dragon\": {\"scaleThickness\": 10, \"clawSharpness\": 5, \"wingStrength\": 4, \"fireBreath\": 1}}";
+        return "{\"dragon\": {\"scaleThickness\": 9, \"clawSharpness\": 1, \"wingStrength\": 4, \"fireBreath\": 6}}";
     }
 }
