@@ -64,7 +64,12 @@ While it is generally a good practice, to avoid that unit tests make calls to ex
 After each test I will run the acceptance test to measure total process.
 
 ### Development
+##### Setting up the Data Access Layer
+Before getting to solving the game, I needed to set up how data about encounters with Knights could be accessed. I settled on creating a DAO, which returns JsonNode representations of both Knight and Weather. Return values returned by the DAO have the same return type and can be mocked when writing the unit tests.
+
 ##### First test
+The first test I wrote was for constructing an Encounter.
+
+##### Nth test
 I will randomly choose a knight who comes with normal weather, make a test case of it and solve the test case.
 
-However, before I get to write tests about battles, I needed to write tests for constructing the Encounter. First a test on constructing a Knight.
