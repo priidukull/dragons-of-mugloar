@@ -11,10 +11,12 @@ public class EncounterTest {
     @Test
     public void newEncounterTest() throws Exception {
         Encounter encounter = new Encounter(new MockEncounterDAO());
-        assertEquals(1, encounter.knight.armor);
-        assertEquals(4, encounter.knight.attack);
-        assertEquals(7, encounter.knight.agility);
-        assertEquals(8, encounter.knight.endurance);
+        Attribute expectedEndurance = new Attribute("endurance", 8);
+        expectedEndurance.markAsPrimary();
+        assertEquals(new Attribute("armor", 1), encounter.knight.armor);
+        assertEquals(new Attribute("attack", 4), encounter.knight.attack);
+        assertEquals(new Attribute("agility", 7), encounter.knight.agility);
+        assertEquals(expectedEndurance, encounter.knight.endurance);
         assertEquals("Sir. Wesley Fitzgerald of Quebec", encounter.knight.name);
         assertEquals(1548178, encounter.id);
         Assert.assertEquals(Weather.NORMAL, encounter.weather);
@@ -41,12 +43,29 @@ public class EncounterTest {
     public void winEncounterTest() throws Exception {
         Knight knight = new Knight();
         knight.encounterId = 8396126;
-        knight.attack = 7;
-        knight.armor = 2;
-        knight.agility = 6;
-        knight.endurance = 5;
+        knight.attack = new Attribute("attack", 7);
+        knight.armor = new Attribute("armor", 2);
+        knight.agility = new Attribute("agility", 6);
+        knight.endurance = new Attribute("endurance", 5);
+        knight.rankAttributes();
         Encounter encounter = new Encounter(knight, Weather.NORMAL);
         System.out.println(encounter.outcome.reason.asText());
+        System.out.println(encounter.dragon.payload());
+        assertEquals(Result.VICTORY, encounter.outcome.result);
+    }
+
+    @Test
+    public void winEncounterTwoTest() throws Exception {
+        Knight knight = new Knight();
+        knight.encounterId = 7214513;
+        knight.attack = new Attribute("attack", 0);
+        knight.armor = new Attribute("armor", 7);
+        knight.agility = new Attribute("agility", 5);
+        knight.endurance = new Attribute("attack", 8);
+        knight.rankAttributes();
+        Encounter encounter = new Encounter(knight, Weather.NORMAL);
+        System.out.println(encounter.outcome.reason.asText());
+        System.out.println(encounter.dragon.payload());
         assertEquals(Result.VICTORY, encounter.outcome.result);
     }
 }

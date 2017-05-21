@@ -16,6 +16,7 @@ public class Encounter {
     Weather weather;
     int id;
     Outcome outcome;
+    Dragon dragon;
 
     Encounter(Knight knight, Weather weather) throws UnexpectedResult, UnirestException, IOException {
         this.dao = new EncounterDAO();
@@ -47,8 +48,8 @@ public class Encounter {
     }
 
     private void resolve() throws IOException, UnirestException, UnexpectedResult {
-        Dragon dragon = new Dragon();
-        JsonNode data = dao.outcome(id, dragon.payload());
+        this.dragon = new Dragon(this.knight);
+        JsonNode data = dao.outcome(id, this.dragon.payload());
         this.outcome = new Outcome(data);
     }
 }

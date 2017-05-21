@@ -7,15 +7,37 @@ class Dragon {
     int clawSharpness;
     int wingStrength;
     int fireBreath;
+    Knight opposingKnight;
 
-    Dragon() {
-        this.scaleThickness = 10;
-        this.clawSharpness = 5;
-        this.wingStrength = 4;
-        this.fireBreath = 1;
+    Dragon(Knight opposingKnight) {
+        this.opposingKnight = opposingKnight;
+        addAttributes();
     }
 
+    private void addAttributes() {
+        if (this.opposingKnight.attack.isPrimary) {
+            this.scaleThickness = this.opposingKnight.attack.value() + 2;
+        } else {
+            this.scaleThickness = this.opposingKnight.attack.value();
+        }
+        if (this.opposingKnight.armor.isPrimary) {
+            this.clawSharpness = this.opposingKnight.armor.value() + 2;
+        } else {
+            this.clawSharpness = this.opposingKnight.armor.value() - 1;
+        }
+        if (this.opposingKnight.agility.isPrimary) {
+            this.wingStrength = this.opposingKnight.agility.value() + 1;
+        } else {
+            this.wingStrength = this.opposingKnight.agility.value() -1;
+        }
+        this.fireBreath = 20 - this.scaleThickness - this.clawSharpness - this.wingStrength;
+    }
+
+
     String payload() throws IOException {
-        return "{\"dragon\": {\"scaleThickness\": 9, \"clawSharpness\": 1, \"wingStrength\": 4, \"fireBreath\": 6}}";
+        String template = "{\"dragon\": {\"scaleThickness\": %d, \"clawSharpness\": %d, " +
+                "\"wingStrength\": %d, \"fireBreath\": %d}}";
+        return String.format(template, this.scaleThickness, this.clawSharpness,
+                this.wingStrength, this.fireBreath);
     }
 }
