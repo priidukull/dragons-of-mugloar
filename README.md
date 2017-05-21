@@ -82,3 +82,8 @@ After that I create newOutcomeTest() to test for generating an Outcome where the
 
 ##### Fourth test - winEncounterTest()
 We have finally arrived at the point where I can test for Dragons having managed to win an Encounter. I will randomly choose an encounter with a normal weather and write code so that such Encounter would be victorious.
+
+##### Acceptance test - InvastionOfKnights::main()
+To see how far are we with learning to choose the right Dragons to fight Knights, I created an acceptance test in the main method of InvasionOfKnights. Currently the main method will run 10 fights and print out the outcome. Once we get to 5 wins out of 10, we will run the acceptance test with a greater number of test cases.
+
+The first run of acceptance test resulted in 1/10 wins.
