@@ -1,4 +1,4 @@
-package dragonsOfMugloar;
+package dragonsOfMugloar.dao;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,7 +10,7 @@ import java.io.IOException;
 
 
 public class EncounterDAO {
-    JsonNode knight() throws UnirestException, IOException {
+    public JsonNode knight() throws UnirestException, IOException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readTree(
                 Unirest.get("http://www.dragonsofmugloar.com/api/game")
@@ -18,7 +18,7 @@ public class EncounterDAO {
                 .asString().getBody()
         );
     }
-    JsonNode weather(int gameId) throws UnirestException, IOException {
+    public JsonNode weather(int gameId) throws UnirestException, IOException {
         XmlMapper mapper = new XmlMapper();
         return mapper.readTree(
                 Unirest.get("http://www.dragonsofmugloar.com/weather/api/report/" + gameId)

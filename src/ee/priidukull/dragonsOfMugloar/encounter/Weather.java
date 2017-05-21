@@ -1,4 +1,4 @@
-package dragonsOfMugloar;
+package dragonsOfMugloar.encounter;
 
 public enum Weather {
     NORMAL,

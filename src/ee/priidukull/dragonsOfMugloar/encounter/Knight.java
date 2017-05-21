@@ -1,7 +1,8 @@
-package dragonsOfMugloar;
+package dragonsOfMugloar.encounter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import dragonsOfMugloar.dao.EncounterDAO;
 
 import java.io.IOException;
 

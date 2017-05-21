@@ -67,9 +67,13 @@ After each test I will run the acceptance test to measure total process.
 ##### Setting up the Data Access Layer
 Before getting to solving the game, I needed to set up how data about encounters with Knights could be accessed. I settled on creating a DAO, which returns JsonNode representations of both Knight and Weather. Return values returned by the DAO have the same return type and can be mocked when writing the unit tests.
 
-##### First test
+##### First test - newEncounterTest()
 The first test I wrote was for constructing an Encounter.
 
+##### Second test - forecastWeatherTest()
+newEncounterTest() ensures that Weather is forecasted in the correct manner when it is normal Weather. However, to ensure that the DAO functions correctly, new tests need to be added to ensure that the Weather will be determined in the correct manner in case of the four other possible weather types. 
+
+As the second test I created forecastWeatherTest(). To run that test with all possible weather types, I modified MockEncounterDao to give out data that is different depending on how many times the DAO object has been accessed. 
 ##### Nth test
 I will randomly choose a knight who comes with normal weather, make a test case of it and solve the test case.
 

@@ -1,6 +1,8 @@
 package dragonsOfMugloar;
 
 import com.mashape.unirest.http.exceptions.UnirestException;
+import dragonsOfMugloar.dao.EncounterDAO;
+import dragonsOfMugloar.encounter.Encounter;
 
 import java.io.IOException;
 
