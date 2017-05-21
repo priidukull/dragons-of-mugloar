@@ -3,6 +3,8 @@ package dragonsOfMugloar.encounter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import dragonsOfMugloar.dao.EncounterDAO;
+import dragonsOfMugloar.encounter.outcome.Outcome;
+import dragonsOfMugloar.encounter.outcome.UnexpectedResult;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -13,12 +15,14 @@ public class Encounter {
     Knight knight;
     Weather weather;
     int id;
+    Outcome outcome;
 
-    public Encounter(EncounterDAO encounterDAO) throws IOException, UnirestException {
+    public Encounter(EncounterDAO encounterDAO) throws IOException, UnirestException, UnexpectedResult {
         this.dao = encounterDAO;
         this.knight = new Knight(encounterDAO);
         this.id = this.knight.encounterId;
         forecastWeather();
+        resolve();
     }
 
     private void forecastWeather() throws IOException, UnirestException {
@@ -31,5 +35,11 @@ public class Encounter {
         codeAsWeather.put("HVA", Weather.RAINY);
         String weatherCode = data.get("code").asText();
         this.weather = codeAsWeather.get(weatherCode);
+    }
+
+    private void resolve() throws IOException, UnirestException, UnexpectedResult {
+        Dragon dragon = new Dragon();
+        JsonNode data = dao.outcome(id, dragon.payload());
+        this.outcome = new Outcome(data);
     }
 }

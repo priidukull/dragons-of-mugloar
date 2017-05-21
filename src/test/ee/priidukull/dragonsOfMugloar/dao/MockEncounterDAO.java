@@ -35,4 +35,9 @@ public class MockEncounterDAO extends EncounterDAO {
             return mapper.readTree("<?xml version=\"1.0\" encoding=\"UTF-8\"?><report><time/><coords><x>3916.234</x><y>169.914</y><z>6.33</z></coords><code>NMR</code><message>Another day of everyday normal regular weather, business as usual, unless it’s going to be like the time of the Great Paprika Mayonnaise Incident of 2014, that was some pretty nasty stuff.</message><varX-Rating>8</varX-Rating></report>");
         }
     }
+    @Override
+    public JsonNode outcome(int gameId, String payload) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readTree("{\"status\":\"Victory\",\"message\":\"Knight was useless in the fog.\"}");
+    }
 }

@@ -74,6 +74,12 @@ The first test I wrote was for constructing an Encounter.
 newEncounterTest() ensures that Weather is forecasted in the correct manner when it is normal Weather. However, to ensure that the DAO functions correctly, new tests need to be added to ensure that the Weather will be determined in the correct manner in case of the four other possible weather types. 
 
 As the second test I created forecastWeatherTest(). To run that test with all possible weather types, I modified MockEncounterDao to give out data that is different depending on how many times the DAO object has been accessed. 
+
+##### Third test 
+Next I extend newEncounterTest() to also resolve the encounter. Thus new assertions are added to the test.
+
+After that I create newOutcomeTest() to test for generating an Outcome where the Dragon is defeated.
+
 ##### Nth test
 I will randomly choose a knight who comes with normal weather, make a test case of it and solve the test case.
 

@@ -26,4 +26,14 @@ public class EncounterDAO {
                 .asString().getBody()
         );
     }
+
+    public JsonNode outcome(int gameId, String payload) throws UnirestException, IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readTree(
+                Unirest.put("http://www.dragonsofmugloar.com/api/game/" + gameId + "/solution")
+                        .header("Content-Type", "application/json")
+                        .body(payload)
+                        .asString().getBody()
+        );
+    }
 }

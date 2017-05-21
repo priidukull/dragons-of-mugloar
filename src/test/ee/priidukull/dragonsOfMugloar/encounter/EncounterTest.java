@@ -1,17 +1,15 @@
 package dragonsOfMugloar.encounter;
 
-import com.mashape.unirest.http.exceptions.UnirestException;
 import dragonsOfMugloar.dao.MockEncounterDAO;
+import dragonsOfMugloar.encounter.outcome.Result;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
 public class EncounterTest {
     @Test
-    public void newEncounterTest() throws IOException, UnirestException {
+    public void newEncounterTest() throws Exception {
         Encounter encounter = new Encounter(new MockEncounterDAO());
         assertEquals(1, encounter.knight.armor);
         assertEquals(4, encounter.knight.attack);
@@ -20,6 +18,8 @@ public class EncounterTest {
         assertEquals("Sir. Wesley Fitzgerald of Quebec", encounter.knight.name);
         assertEquals(1548178, encounter.id);
         Assert.assertEquals(Weather.NORMAL, encounter.weather);
+        Assert.assertEquals(Result.VICTORY, encounter.outcome.result);
+        Assert.assertEquals("Knight was useless in the fog.", encounter.outcome.reason.asText());
     }
 
     @Test
