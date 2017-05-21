@@ -18,6 +18,7 @@ class Knight {
 
     Knight(EncounterDAO encounterDAO) throws UnirestException, IOException {
         JsonNode data = encounterDAO.knight();
+        System.out.println("Encounter: " + data);
         JsonNode knight = data.get("knight");
         this.attack = knight.get("attack").asInt();
         this.armor = knight.get("armor").asInt();

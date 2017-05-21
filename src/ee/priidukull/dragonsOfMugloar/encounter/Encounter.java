@@ -43,6 +43,7 @@ public class Encounter {
         codeAsWeather.put("HVA", Weather.RAINY);
         String weatherCode = data.get("code").asText();
         this.weather = codeAsWeather.get(weatherCode);
+        System.out.println(this.weather.asText());
     }
 
     private void resolve() throws IOException, UnirestException, UnexpectedResult {
