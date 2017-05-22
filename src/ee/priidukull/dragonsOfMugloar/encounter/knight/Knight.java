@@ -36,7 +36,6 @@ public class Knight {
             int value = knight.get(fieldName).asInt();
             field.set(this, new KnightAttribute(fieldName, value));
         }
-        rankAttributes();
     }
 
     public List<KnightAttribute> attributesInDescendingOrder() {
@@ -44,14 +43,6 @@ public class Knight {
         Comparator<KnightAttribute> comparator = KnightAttribute::compareTo;
         attrs.sort(comparator);
         return attrs;
-    }
-
-    private void rankAttributes() throws CouldNotRank {
-        List<KnightAttribute> attrs = attributesInDescendingOrder();
-        for (int i = 0; i < attrs.size(); i++) {
-            KnightAttribute attr = attrs.get(i);
-            attr.giveRank(i);
-        }
     }
 
     @Override
