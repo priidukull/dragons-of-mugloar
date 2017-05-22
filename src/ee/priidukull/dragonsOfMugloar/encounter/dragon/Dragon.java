@@ -34,6 +34,8 @@ public class Dragon {
     private void buildDragon() throws CorrespondingDragonStrengthNotFound, NoSuchFieldException, IllegalAccessException {
         if (this.weather == Weather.HOT) {
             buildZenDragon();
+        } else if (this.weather == Weather.RAINY) {
+            buildDragonToDestroyTheUmbrellaBoats();
         } else {
             buildNormalDragon();
         }
@@ -45,6 +47,17 @@ public class Dragon {
             Field field = getClass().getDeclaredField(fieldName);
             field.set(this, 5);
         }
+    }
+
+    private void buildDragonToDestroyTheUmbrellaBoats() throws NoSuchFieldException, IllegalAccessException {
+        Field clawSharpnessField = getClass().getDeclaredField("clawSharpness");
+        clawSharpnessField.set(this, 10);
+        Field fireBreathField = getClass().getDeclaredField("fireBreath");
+        fireBreathField.set(this, 0);
+        Field wingStrengthField = getClass().getDeclaredField("wingStrength");
+        wingStrengthField.set(this, 5);
+        Field scaleThicknessField = getClass().getDeclaredField("scaleThickness");
+        scaleThicknessField.set(this, 5);
     }
 
     private void buildNormalDragon() throws NoSuchFieldException, CorrespondingDragonStrengthNotFound, IllegalAccessException {

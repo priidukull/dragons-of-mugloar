@@ -104,6 +104,16 @@ public class EncounterTest {
         assertEquals(Result.VICTORY, encounter.outcome.result);
     }
 
+    @Test
+    public void winEncounterWhenItsRainyTest() throws Exception {
+        attributes.put("attack", 4);
+        attributes.put("armor", 2);
+        attributes.put("agility", 6);
+        attributes.put("endurance", 8);
+        Encounter encounter = encounter(attributes, 6829988, Weather.RAINY);
+        assertEquals(Result.VICTORY, encounter.outcome.result);
+    }
+
     private Encounter encounter(ObjectNode attributes, int encounterId, Weather weather) throws NoSuchFieldException, IllegalAccessException, UnexpectedResult, UnirestException, IOException, CouldNotRank, CouldNotRank, CorrespondingDragonStrengthNotFound {
         knight.addAttributes(attributes);
         knight.encounterId = encounterId;
