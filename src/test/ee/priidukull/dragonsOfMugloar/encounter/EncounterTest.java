@@ -27,18 +27,13 @@ public class EncounterTest {
 
     @Test
     public void newEncounterTest() throws Exception {
-        Encounter encounter = new Encounter(new MockEncounterDAO());
-        Attribute expectedEndurance = new Attribute("endurance", 8);
-        expectedEndurance.markAsPrimary();
-        assertEquals(new Attribute("armor", 1), encounter.knight.armor);
-        assertEquals(new Attribute("attack", 4), encounter.knight.attack);
-        assertEquals(new Attribute("agility", 7), encounter.knight.agility);
-        assertEquals(expectedEndurance, encounter.knight.endurance);
-        assertEquals("Sir. Wesley Fitzgerald of Quebec", encounter.knight.name);
-        assertEquals(1548178, encounter.id);
-        Assert.assertEquals(Weather.NORMAL, encounter.weather);
-        Assert.assertEquals(Result.VICTORY, encounter.outcome.result);
-        Assert.assertEquals("Knight was useless in the fog.", encounter.outcome.reason.asText());
+        attributes.put("attack", 4);
+        attributes.put("armor", 1);
+        attributes.put("agility", 7);
+        attributes.put("endurance", 8);
+        Encounter expectedEncounter = encounter(attributes, 1548178);
+        Encounter actualEncounter = new Encounter(new MockEncounterDAO());
+        Assert.assertEquals(expectedEncounter, actualEncounter);
     }
 
     @Test
@@ -96,9 +91,10 @@ public class EncounterTest {
         assertEquals(Result.VICTORY, encounter.outcome.result);
     }
 
-    private Encounter encounter(ObjectNode attributes, int encounterId) throws NoSuchFieldException, IllegalAccessException, UnexpectedResult, UnirestException, IOException {
+    private Encounter encounter(ObjectNode attributes, int encounterId) throws NoSuchFieldException, IllegalAccessException, UnexpectedResult, UnirestException, IOException, CouldNotRank {
         knight.addAttributes(attributes);
         knight.encounterId = encounterId;
+        knight.name = "Sir. Wesley Fitzgerald of Quebec";
         Encounter encounter = new Encounter(knight, Weather.NORMAL);
         System.out.println(encounter.outcome.reason.asText());
         System.out.println(encounter.dragon.payload());

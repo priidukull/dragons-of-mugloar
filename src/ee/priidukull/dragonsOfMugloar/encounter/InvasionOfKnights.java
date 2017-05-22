@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class InvasionOfKnights {
 
-    public static void main(String[] args) throws UnirestException, IOException, UnexpectedResult, NoSuchFieldException, IllegalAccessException {
+    public static void main(String[] args) throws UnirestException, IOException, UnexpectedResult, NoSuchFieldException, IllegalAccessException, CouldNotRank {
         int n = 100;
         System.out.println("-------------------------- " + n + " knights are approaching the realms of Mugloar --------------------------");
         int wins = 0;

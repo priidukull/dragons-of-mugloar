@@ -26,7 +26,7 @@ public class Encounter {
         resolve();
     }
 
-    public Encounter(EncounterDAO encounterDAO) throws IOException, UnirestException, UnexpectedResult, NoSuchFieldException, IllegalAccessException {
+    public Encounter(EncounterDAO encounterDAO) throws IOException, UnirestException, UnexpectedResult, NoSuchFieldException, IllegalAccessException, CouldNotRank {
         this.dao = encounterDAO;
         this.knight = new Knight(encounterDAO);
         this.id = this.knight.encounterId;
@@ -51,5 +51,30 @@ public class Encounter {
         this.dragon = new Dragon(this.knight);
         JsonNode data = dao.outcome(id, this.dragon.payload());
         this.outcome = new Outcome(data);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Encounter)) return false;
+
+        Encounter encounter = (Encounter) o;
+
+        if (id != encounter.id) return false;
+        if (!knight.equals(encounter.knight)) return false;
+        if (weather != encounter.weather) return false;
+        if (!outcome.equals(encounter.outcome)) return false;
+        return dragon.equals(encounter.dragon);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = knight.hashCode();
+        result = 31 * result + weather.hashCode();
+        result = 31 * result + id;
+        result = 31 * result + outcome.hashCode();
+        result = 31 * result + dragon.hashCode();
+        return result;
     }
 }

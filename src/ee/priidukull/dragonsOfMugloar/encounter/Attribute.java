@@ -1,22 +1,35 @@
 package dragonsOfMugloar.encounter;
 
-public class Attribute implements Comparable<Attribute> {
+class Attribute implements Comparable<Attribute> {
     private String name;
     private int value;
-    boolean isPrimary = false;
+    Rank rank;
 
     Attribute(String name, int value) {
         this.name = name;
         this.value = value;
     }
 
-    public int value() {
+    int value() {
         return this.value;
     }
 
+    boolean isPrimaryAttribute() {
+        return rank == Rank.PRIMARY;
+    }
 
-    public void markAsPrimary() {
-        this.isPrimary = true;
+    public void giveRank(int i) throws CouldNotRank {
+        if (i == 0) {
+            this.rank = Rank.PRIMARY;
+        } else if (i == 1) {
+            this.rank = Rank.SECONDARY;
+        } else if (i == 2) {
+            this.rank = Rank.TERTIARY;
+        } else if (i == 3) {
+            this.rank = Rank.QUATERNARY;
+        } else {
+            throw new CouldNotRank("There is no ranking available for the attribute with the index " + i);
+        }
     }
 
     @Override
@@ -27,8 +40,8 @@ public class Attribute implements Comparable<Attribute> {
         Attribute attribute = (Attribute) o;
 
         if (value != attribute.value) return false;
-        if (isPrimary != attribute.isPrimary) return false;
-        return name.equals(attribute.name);
+        if (!name.equals(attribute.name)) return false;
+        return rank == attribute.rank;
 
     }
 
@@ -36,12 +49,19 @@ public class Attribute implements Comparable<Attribute> {
     public int hashCode() {
         int result = name.hashCode();
         result = 31 * result + value;
-        result = 31 * result + (isPrimary ? 1 : 0);
+        result = 31 * result + rank.hashCode();
         return result;
     }
 
     @Override
     public int compareTo(Attribute o) {
         return o.value > this.value ? 1 : o.value == this.value ? 0 : -1;
+    }
+
+    private enum Rank {
+        PRIMARY,
+        SECONDARY,
+        TERTIARY,
+        QUATERNARY;
     }
 }

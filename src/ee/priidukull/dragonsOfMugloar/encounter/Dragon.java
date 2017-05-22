@@ -15,22 +15,22 @@ class Dragon {
     }
 
     private void addAttributes() {
-        if (this.opposingKnight.attack.isPrimary) {
+        if (this.opposingKnight.attack.isPrimaryAttribute()) {
             this.scaleThickness = this.opposingKnight.attack.value() + 2;
         } else {
             this.scaleThickness = this.opposingKnight.attack.value();
         }
-        if (this.opposingKnight.armor.isPrimary) {
+        if (this.opposingKnight.armor.isPrimaryAttribute()) {
             this.clawSharpness = this.opposingKnight.armor.value() + 2;
         } else {
-            this.clawSharpness = Math.max(this.opposingKnight.armor.value() - 1, 0);
+            this.clawSharpness = this.opposingKnight.armor.value() - 1;
         }
-        if (this.opposingKnight.agility.isPrimary) {
+        if (this.opposingKnight.agility.isPrimaryAttribute()) {
             this.wingStrength = this.opposingKnight.agility.value() + 2;
         } else {
-            this.wingStrength = Math.max(this.opposingKnight.agility.value() -1, 0);
+            this.wingStrength = this.opposingKnight.agility.value() -1;
         }
-        this.fireBreath = Math.max(20 - this.scaleThickness - this.clawSharpness - this.wingStrength, 0);
+        this.fireBreath = 20 - this.scaleThickness - this.clawSharpness - this.wingStrength;
     }
 
 
@@ -39,5 +39,28 @@ class Dragon {
                 "\"wingStrength\": %d, \"fireBreath\": %d}}";
         return String.format(template, this.scaleThickness, this.clawSharpness,
                 this.wingStrength, this.fireBreath);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Dragon)) return false;
+
+        Dragon dragon = (Dragon) o;
+
+        if (scaleThickness != dragon.scaleThickness) return false;
+        if (clawSharpness != dragon.clawSharpness) return false;
+        if (wingStrength != dragon.wingStrength) return false;
+        return fireBreath == dragon.fireBreath;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = scaleThickness;
+        result = 31 * result + clawSharpness;
+        result = 31 * result + wingStrength;
+        result = 31 * result + fireBreath;
+        return result;
     }
 }

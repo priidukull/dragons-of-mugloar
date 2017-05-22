@@ -16,5 +16,24 @@ public class Outcome {
         }
         this.reason = new Reason(outcome.get("message").asText());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Outcome)) return false;
+
+        Outcome outcome = (Outcome) o;
+
+        if (result != outcome.result) return false;
+        return reason.equals(outcome.reason);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result1 = result.hashCode();
+        result1 = 31 * result1 + reason.hashCode();
+        return result1;
+    }
 }
 
