@@ -13,7 +13,7 @@ public class KnightAttribute implements Comparable<KnightAttribute> {
         return this.value;
     }
 
-    public String matchingDragonAttributeName() throws CorrespondingDragonAttributeNotFound {
+    public String matchingDragonStrength() throws CorrespondingDragonStrengthNotFound {
         if (this.name.equals("attack")) {
             return "scaleThickness";
         } else if (this.name.equals("armor")) {
@@ -23,8 +23,8 @@ public class KnightAttribute implements Comparable<KnightAttribute> {
         } else if (this.name.equals("endurance")) {
             return "fireBreath";
         } else {
-            String message = "Could not determine the corresponding dragon attribute";
-            throw new CorrespondingDragonAttributeNotFound(message);
+            String message = "Could not determine the corresponding dragon strength";
+            throw new CorrespondingDragonStrengthNotFound(message);
         }
     }
 

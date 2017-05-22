@@ -1,6 +1,6 @@
 package dragonsOfMugloar.encounter.dragon;
 
-import dragonsOfMugloar.encounter.knight.CorrespondingDragonAttributeNotFound;
+import dragonsOfMugloar.encounter.knight.CorrespondingDragonStrengthNotFound;
 import dragonsOfMugloar.encounter.knight.Knight;
 import dragonsOfMugloar.encounter.knight.KnightAttribute;
 
@@ -13,31 +13,32 @@ public class Dragon {
     int clawSharpness;
     int wingStrength;
     int fireBreath;
-    Knight opposingKnight;
+    private List<KnightAttribute> opponentAttributes;
 
-    public Dragon(Knight opposingKnight) throws IllegalAccessException, CorrespondingDragonAttributeNotFound, NoSuchFieldException {
-        this.opposingKnight = opposingKnight;
-        addAttributes();
+    public Dragon(Knight opposingKnight) throws IllegalAccessException, CorrespondingDragonStrengthNotFound, NoSuchFieldException {
+        this.opponentAttributes = opposingKnight.attributesInDescendingOrder();
+        buildDragon();
     }
 
-    private void addAttributes() throws CorrespondingDragonAttributeNotFound, NoSuchFieldException, IllegalAccessException {
-        List<KnightAttribute> knightAttributes = this.opposingKnight.attributesInDescendingOrder();
-        KnightAttribute primary = knightAttributes.get(0);
-        Field dragonPrimary = getClass().getDeclaredField(primary.matchingDragonAttributeName());
-        int dragonPrimaryValue = primary.value() + 2;
-        dragonPrimary.set(this, dragonPrimaryValue);
-        KnightAttribute quaternary = knightAttributes.get(3);
-        Field dragonQuaternary = getClass().getDeclaredField(quaternary.matchingDragonAttributeName());
-        int dragonQuaternaryValue = Math.max(quaternary.value() - 1, 0);
-        dragonQuaternary.set(this, dragonQuaternaryValue);
-        KnightAttribute tertiary = knightAttributes.get(2);
-        Field dragonTertiary = getClass().getDeclaredField(tertiary.matchingDragonAttributeName());
-        int dragonTertiaryValue = tertiary.value();
-        dragonTertiary.set(this, dragonTertiaryValue);
-        KnightAttribute secondary = knightAttributes.get(1);
-        Field dragonSecondary = getClass().getDeclaredField(secondary.matchingDragonAttributeName());
-        int dragonSecondaryValue = 20 - dragonPrimaryValue - dragonTertiaryValue - dragonQuaternaryValue;
-        dragonSecondary.set(this, dragonSecondaryValue);
+    private void buildDragon() throws CorrespondingDragonStrengthNotFound, NoSuchFieldException, IllegalAccessException {
+        decideStrength(0, 2);
+        decideStrength(3, -1);
+        decideStrength(2, 0);
+        decideFinal(1);
+    }
+
+    private void decideStrength(int priority, int modifier) throws NoSuchFieldException, CorrespondingDragonStrengthNotFound, IllegalAccessException {
+        KnightAttribute attr = this.opponentAttributes.get(priority);
+        Field dragonStrength = getClass().getDeclaredField(attr.matchingDragonStrength());
+        int dragonStrengthLevel = Math.max(attr.value() + modifier, 0);
+        dragonStrength.set(this, dragonStrengthLevel);
+    }
+
+    private void decideFinal(int priority) throws CorrespondingDragonStrengthNotFound, NoSuchFieldException, IllegalAccessException {
+        KnightAttribute attr = this.opponentAttributes.get(priority);
+        int value = 20 - (this.scaleThickness + this.clawSharpness + this.wingStrength + this.fireBreath);
+        Field dragonStrength = getClass().getDeclaredField(attr.matchingDragonStrength());
+        dragonStrength.set(this, value);
     }
 
     public String payload() throws IOException {
