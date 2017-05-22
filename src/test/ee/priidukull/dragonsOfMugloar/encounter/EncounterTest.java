@@ -34,7 +34,7 @@ public class EncounterTest {
         attributes.put("armor", 1);
         attributes.put("agility", 7);
         attributes.put("endurance", 8);
-        Encounter expectedEncounter = encounter(attributes, 1548178);
+        Encounter expectedEncounter = encounter(attributes, 1548178, Weather.NORMAL);
         Encounter actualEncounter = new Encounter(new MockEncounterDAO());
         Assert.assertEquals(expectedEncounter, actualEncounter);
     }
@@ -60,7 +60,7 @@ public class EncounterTest {
         attributes.put("armor", 2);
         attributes.put("agility", 6);
         attributes.put("endurance", 5);
-        Encounter encounter = encounter(attributes, 8396126);
+        Encounter encounter = encounter(attributes, 8396126, Weather.NORMAL);
         assertEquals(Result.VICTORY, encounter.outcome.result);
     }
 
@@ -70,7 +70,7 @@ public class EncounterTest {
         attributes.put("armor", 7);
         attributes.put("agility", 5);
         attributes.put("endurance", 8);
-        Encounter encounter = encounter(attributes, 7214513);
+        Encounter encounter = encounter(attributes, 7214513, Weather.NORMAL);
         assertEquals(Result.VICTORY, encounter.outcome.result);
     }
 
@@ -80,7 +80,7 @@ public class EncounterTest {
         attributes.put("armor", 5);
         attributes.put("agility", 8);
         attributes.put("endurance", 7);
-        Encounter encounter = encounter(attributes, 8252096);
+        Encounter encounter = encounter(attributes, 8252096, Weather.NORMAL);
         assertEquals(Result.VICTORY, encounter.outcome.result);
     }
 
@@ -90,15 +90,25 @@ public class EncounterTest {
         attributes.put("armor", 0);
         attributes.put("agility", 5);
         attributes.put("endurance", 7);
-        Encounter encounter = encounter(attributes, 7896598);
+        Encounter encounter = encounter(attributes, 7896598, Weather.NORMAL);
         assertEquals(Result.VICTORY, encounter.outcome.result);
     }
 
-    private Encounter encounter(ObjectNode attributes, int encounterId) throws NoSuchFieldException, IllegalAccessException, UnexpectedResult, UnirestException, IOException, CouldNotRank, CouldNotRank, CorrespondingDragonStrengthNotFound {
+    @Test
+    public void winEncounterWhenItsHotTest() throws Exception {
+        attributes.put("attack", 5);
+        attributes.put("armor", 3);
+        attributes.put("agility", 4);
+        attributes.put("endurance", 8);
+        Encounter encounter = encounter(attributes, 896262, Weather.HOT);
+        assertEquals(Result.VICTORY, encounter.outcome.result);
+    }
+
+    private Encounter encounter(ObjectNode attributes, int encounterId, Weather weather) throws NoSuchFieldException, IllegalAccessException, UnexpectedResult, UnirestException, IOException, CouldNotRank, CouldNotRank, CorrespondingDragonStrengthNotFound {
         knight.addAttributes(attributes);
         knight.encounterId = encounterId;
         knight.name = "Sir. Wesley Fitzgerald of Quebec";
-        Encounter encounter = new Encounter(knight, Weather.NORMAL);
+        Encounter encounter = new Encounter(knight, weather);
         System.out.println(encounter.outcome.reason.asText());
         System.out.println(encounter.dragon.payload());
         return encounter;

@@ -106,3 +106,8 @@ Wrote a test to deal with the case of a Dragon having anorexia. And made it pass
 After making that test green, Dragons won 85 Encounters out of 100. Appearently there was no overall improvement in the performance of dragons.
 
 Next I tried a different way to fix the failing test, which gave a success rate of 89/100.
+
+##### The eigth (unit-)test - winEncounterWhenItsHotTest()
+Appearently Dragons can now defeat all the knights in normal weather conditions, but there are some problems in more extreme weather conditions. I will create and try to solve a test where the weather is hot.
+
+After changing our Dragon building algorithms to build only very balanced and Zen dragons when the Weather is hot, we stopped losing dragons with hot Weather. 97/100 Encounters were successful. 

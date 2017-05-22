@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class Encounter {
     EncounterDAO dao;
-    Knight knight;
+    private Knight knight;
     Weather weather;
     int id;
     Outcome outcome;
@@ -42,6 +42,14 @@ public class Encounter {
         return this.outcome;
     }
 
+    public Knight knight() {
+        return this.knight;
+    }
+
+    public Weather weather() {
+        return this.weather;
+    }
+
     private void forecastWeather() throws IOException, UnirestException {
         JsonNode data = dao.weather(this.id);
         Map<String, Weather> codeAsWeather = new HashMap<>();
@@ -56,7 +64,7 @@ public class Encounter {
     }
 
     private void resolve() throws IOException, UnirestException, UnexpectedResult, IllegalAccessException, CorrespondingDragonStrengthNotFound, NoSuchFieldException {
-        this.dragon = new Dragon(this.knight);
+        this.dragon = new Dragon(this);
         JsonNode data = dao.outcome(id, this.dragon.payload());
         this.outcome = new Outcome(data);
     }

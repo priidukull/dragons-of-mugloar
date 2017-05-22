@@ -1,6 +1,6 @@
 package dragonsOfMugloar.encounter;
 
-enum Weather {
+public enum Weather {
     NORMAL("It is a normal weather"),
     WINDY("It is a windy weather"),
     FOGGY("It is a foggy weather"),

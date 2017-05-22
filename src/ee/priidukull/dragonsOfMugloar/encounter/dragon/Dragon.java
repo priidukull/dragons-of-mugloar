@@ -1,11 +1,13 @@
 package dragonsOfMugloar.encounter.dragon;
 
+import dragonsOfMugloar.encounter.Encounter;
+import dragonsOfMugloar.encounter.Weather;
 import dragonsOfMugloar.encounter.knight.CorrespondingDragonStrengthNotFound;
-import dragonsOfMugloar.encounter.knight.Knight;
 import dragonsOfMugloar.encounter.knight.KnightAttribute;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 
 public class Dragon {
@@ -14,31 +16,12 @@ public class Dragon {
     int wingStrength;
     int fireBreath;
     private List<KnightAttribute> opponentAttributes;
+    private Weather weather;
 
-    public Dragon(Knight opposingKnight) throws IllegalAccessException, CorrespondingDragonStrengthNotFound, NoSuchFieldException {
-        this.opponentAttributes = opposingKnight.attributesInDescendingOrder();
+    public Dragon(Encounter encounter) throws IllegalAccessException, CorrespondingDragonStrengthNotFound, NoSuchFieldException {
+        this.opponentAttributes = encounter.knight().attributesInDescendingOrder();
+        this.weather = encounter.weather();
         buildDragon();
-    }
-
-    private void buildDragon() throws CorrespondingDragonStrengthNotFound, NoSuchFieldException, IllegalAccessException {
-        decideStrength(0, 2);
-        decideStrength(3, -1);
-        decideStrength(2, 0);
-        decideFinal(1);
-    }
-
-    private void decideStrength(int priority, int modifier) throws NoSuchFieldException, CorrespondingDragonStrengthNotFound, IllegalAccessException {
-        KnightAttribute attr = this.opponentAttributes.get(priority);
-        Field dragonStrength = getClass().getDeclaredField(attr.matchingDragonStrength());
-        int dragonStrengthLevel = Math.max(attr.value() + modifier, 0);
-        dragonStrength.set(this, dragonStrengthLevel);
-    }
-
-    private void decideFinal(int priority) throws CorrespondingDragonStrengthNotFound, NoSuchFieldException, IllegalAccessException {
-        KnightAttribute attr = this.opponentAttributes.get(priority);
-        int value = 20 - (this.scaleThickness + this.clawSharpness + this.wingStrength + this.fireBreath);
-        Field dragonStrength = getClass().getDeclaredField(attr.matchingDragonStrength());
-        dragonStrength.set(this, value);
     }
 
     public String payload() throws IOException {
@@ -46,6 +29,43 @@ public class Dragon {
                 "\"wingStrength\": %d, \"fireBreath\": %d}}";
         return String.format(template, this.scaleThickness, this.clawSharpness,
                 this.wingStrength, this.fireBreath);
+    }
+
+    private void buildDragon() throws CorrespondingDragonStrengthNotFound, NoSuchFieldException, IllegalAccessException {
+        if (this.weather == Weather.HOT) {
+            buildZenDragon();
+        } else {
+            buildNormalDragon();
+        }
+    }
+
+    private void buildZenDragon() throws NoSuchFieldException, IllegalAccessException {
+        List<String> fields = Arrays.asList("scaleThickness", "clawSharpness", "wingStrength", "fireBreath");
+        for (String fieldName : fields) {
+            Field field = getClass().getDeclaredField(fieldName);
+            field.set(this, 5);
+        }
+    }
+
+    private void buildNormalDragon() throws NoSuchFieldException, CorrespondingDragonStrengthNotFound, IllegalAccessException {
+        decideStrength(0, 2);
+        decideStrength(3, -1);
+        decideStrength(2, 0);
+        decideFinal(1);
+    }
+
+    private void decideStrength(int priority, int modifier) throws NoSuchFieldException, CorrespondingDragonStrengthNotFound, IllegalAccessException {
+        KnightAttribute oppAttribute = this.opponentAttributes.get(priority);
+        Field field = getClass().getDeclaredField(oppAttribute.matchingDragonStrength());
+        int level = Math.max(oppAttribute.value() + modifier, 0);
+        field.set(this, level);
+    }
+
+    private void decideFinal(int priority) throws CorrespondingDragonStrengthNotFound, NoSuchFieldException, IllegalAccessException {
+        KnightAttribute attr = this.opponentAttributes.get(priority);
+        int value = 20 - (this.scaleThickness + this.clawSharpness + this.wingStrength + this.fireBreath);
+        Field dragonStrength = getClass().getDeclaredField(attr.matchingDragonStrength());
+        dragonStrength.set(this, value);
     }
 
     @Override
