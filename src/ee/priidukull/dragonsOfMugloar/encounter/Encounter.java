@@ -3,6 +3,10 @@ package dragonsOfMugloar.encounter;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import dragonsOfMugloar.dao.EncounterDAO;
+import dragonsOfMugloar.encounter.dragon.Dragon;
+import dragonsOfMugloar.encounter.knight.CorrespondingDragonAttributeNotFound;
+import dragonsOfMugloar.encounter.knight.CouldNotRank;
+import dragonsOfMugloar.encounter.knight.Knight;
 import dragonsOfMugloar.encounter.outcome.Outcome;
 import dragonsOfMugloar.encounter.outcome.UnexpectedResult;
 
@@ -18,7 +22,7 @@ public class Encounter {
     Outcome outcome;
     Dragon dragon;
 
-    Encounter(Knight knight, Weather weather) throws UnexpectedResult, UnirestException, IOException {
+    Encounter(Knight knight, Weather weather) throws UnexpectedResult, UnirestException, IOException, IllegalAccessException, CorrespondingDragonAttributeNotFound, NoSuchFieldException {
         this.dao = new EncounterDAO();
         this.knight = knight;
         this.weather = weather;
@@ -26,12 +30,16 @@ public class Encounter {
         resolve();
     }
 
-    public Encounter(EncounterDAO encounterDAO) throws IOException, UnirestException, UnexpectedResult, NoSuchFieldException, IllegalAccessException, CouldNotRank {
+    public Encounter(EncounterDAO encounterDAO) throws IOException, UnirestException, UnexpectedResult, NoSuchFieldException, IllegalAccessException, CouldNotRank, CouldNotRank, CorrespondingDragonAttributeNotFound {
         this.dao = encounterDAO;
         this.knight = new Knight(encounterDAO);
         this.id = this.knight.encounterId;
         forecastWeather();
         resolve();
+    }
+
+    public Outcome outcome() {
+        return this.outcome;
     }
 
     private void forecastWeather() throws IOException, UnirestException {
@@ -47,7 +55,7 @@ public class Encounter {
         System.out.println(this.weather.asText());
     }
 
-    private void resolve() throws IOException, UnirestException, UnexpectedResult {
+    private void resolve() throws IOException, UnirestException, UnexpectedResult, IllegalAccessException, CorrespondingDragonAttributeNotFound, NoSuchFieldException {
         this.dragon = new Dragon(this.knight);
         JsonNode data = dao.outcome(id, this.dragon.payload());
         this.outcome = new Outcome(data);

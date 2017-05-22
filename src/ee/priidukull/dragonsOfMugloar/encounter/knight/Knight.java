@@ -1,4 +1,4 @@
-package dragonsOfMugloar.encounter;
+package dragonsOfMugloar.encounter.knight;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -10,17 +10,17 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-class Knight {
-    Attribute attack;
-    Attribute armor;
-    Attribute agility;
-    Attribute endurance;
-    String name;
-    int encounterId;
+public class Knight {
+    public KnightAttribute attack;
+    public KnightAttribute armor;
+    public KnightAttribute agility;
+    public KnightAttribute endurance;
+    public String name;
+    public int encounterId;
 
-    Knight() {}
+    public Knight() {}
 
-    Knight(EncounterDAO encounterDAO) throws UnirestException, IOException, NoSuchFieldException, IllegalAccessException, CouldNotRank {
+    public Knight(EncounterDAO encounterDAO) throws UnirestException, IOException, NoSuchFieldException, IllegalAccessException, CouldNotRank {
         JsonNode data = encounterDAO.knight();
         System.out.println("Encounter: " + data);
         JsonNode knight = data.get("knight");
@@ -29,22 +29,27 @@ class Knight {
         addAttributes(knight);
     }
 
-    void addAttributes(JsonNode knight) throws NoSuchFieldException, IllegalAccessException, CouldNotRank {
+    public void addAttributes(JsonNode knight) throws NoSuchFieldException, IllegalAccessException, CouldNotRank {
         String[] attributes = {"attack", "armor", "agility", "endurance"};
         for (String fieldName : attributes) {
             Field field = getClass().getDeclaredField(fieldName);
             int value = knight.get(fieldName).asInt();
-            field.set(this, new Attribute(fieldName, value));
+            field.set(this, new KnightAttribute(fieldName, value));
         }
         rankAttributes();
     }
 
-    private void rankAttributes() throws CouldNotRank {
-        List<Attribute> attrs = Arrays.asList(this.attack, this.armor, this.agility, this.endurance);
-        Comparator<Attribute> comparator = Attribute::compareTo;
+    public List<KnightAttribute> attributesInDescendingOrder() {
+        List<KnightAttribute> attrs = Arrays.asList(this.attack, this.armor, this.agility, this.endurance);
+        Comparator<KnightAttribute> comparator = KnightAttribute::compareTo;
         attrs.sort(comparator);
+        return attrs;
+    }
+
+    private void rankAttributes() throws CouldNotRank {
+        List<KnightAttribute> attrs = attributesInDescendingOrder();
         for (int i = 0; i < attrs.size(); i++) {
-            Attribute attr = attrs.get(i);
+            KnightAttribute attr = attrs.get(i);
             attr.giveRank(i);
         }
     }

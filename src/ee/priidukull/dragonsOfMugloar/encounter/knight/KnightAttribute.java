@@ -1,21 +1,40 @@
-package dragonsOfMugloar.encounter;
+package dragonsOfMugloar.encounter.knight;
 
-class Attribute implements Comparable<Attribute> {
+public class KnightAttribute implements Comparable<KnightAttribute> {
     private String name;
     private int value;
     Rank rank;
 
-    Attribute(String name, int value) {
+    KnightAttribute(String name, int value) {
         this.name = name;
         this.value = value;
     }
 
-    int value() {
+    public int value() {
         return this.value;
     }
 
-    boolean isPrimaryAttribute() {
+    public boolean isPrimaryAttribute() {
         return rank == Rank.PRIMARY;
+    }
+
+    public boolean isSecondaryAttribute() {
+        return rank == Rank.SECONDARY;
+    }
+
+    public String matchingDragonAttributeName() throws CorrespondingDragonAttributeNotFound {
+        if (this.name.equals("attack")) {
+            return "scaleThickness";
+        } else if (this.name.equals("armor")) {
+            return "clawSharpness";
+        } else if (this.name.equals("agility")) {
+            return "wingStrength";
+        } else if (this.name.equals("endurance")) {
+            return "fireBreath";
+        } else {
+            String message = "Could not determine the corresponding dragon attribute";
+            throw new CorrespondingDragonAttributeNotFound(message);
+        }
     }
 
     public void giveRank(int i) throws CouldNotRank {
@@ -35,9 +54,9 @@ class Attribute implements Comparable<Attribute> {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Attribute)) return false;
+        if (!(o instanceof KnightAttribute)) return false;
 
-        Attribute attribute = (Attribute) o;
+        KnightAttribute attribute = (KnightAttribute) o;
 
         if (value != attribute.value) return false;
         if (!name.equals(attribute.name)) return false;
@@ -54,7 +73,7 @@ class Attribute implements Comparable<Attribute> {
     }
 
     @Override
-    public int compareTo(Attribute o) {
+    public int compareTo(KnightAttribute o) {
         return o.value > this.value ? 1 : o.value == this.value ? 0 : -1;
     }
 

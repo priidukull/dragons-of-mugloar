@@ -104,3 +104,5 @@ After making that test green, Dragons won 88 Encounters out of 100.
 Wrote a test to deal with the case of a Dragon having anorexia. And made it pass.
 
 After making that test green, Dragons won 85 Encounters out of 100. Appearently there was no overall improvement in the performance of dragons.
+
+Next I tried a different way to fix the failing test, which gave a success rate of 89/100.
