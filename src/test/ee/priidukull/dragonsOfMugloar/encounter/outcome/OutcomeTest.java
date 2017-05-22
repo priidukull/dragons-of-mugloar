@@ -12,6 +12,6 @@ public class OutcomeTest {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode data = mapper.readTree("{\"status\": \"Defeat\", \"message\": \"Dragon could not compete with knights epic attack\"}");
         Outcome outcome = new Outcome(data);
-        assertEquals(Result.DEFEAT, outcome.result);
+        assertEquals(Result.DEFEAT, outcome.result());
     }
 }

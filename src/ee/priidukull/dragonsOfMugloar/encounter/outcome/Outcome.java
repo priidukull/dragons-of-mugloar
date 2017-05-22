@@ -3,8 +3,8 @@ package dragonsOfMugloar.encounter.outcome;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class Outcome {
-    public Result result;
-    public Reason reason;
+    private Result result;
+    private Reason reason;
 
     public Outcome(JsonNode outcome) throws UnexpectedResult {
         if (outcome.get("status").asText().equals("Victory")) {
@@ -15,6 +15,14 @@ public class Outcome {
             throw new UnexpectedResult("Did not expect result " + outcome.get("status").asText());
         }
         this.reason = new Reason(outcome.get("message").asText());
+    }
+
+    public Result result() {
+        return this.result;
+    }
+
+    public Reason reason() {
+        return this.reason;
     }
 
     @Override

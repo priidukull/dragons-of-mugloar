@@ -61,7 +61,7 @@ public class EncounterTest {
         attributes.put("agility", 6);
         attributes.put("endurance", 5);
         Encounter encounter = encounter(attributes, 8396126, Weather.NORMAL);
-        assertEquals(Result.VICTORY, encounter.outcome.result);
+        assertEquals(Result.VICTORY, encounter.outcome.result());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class EncounterTest {
         attributes.put("agility", 5);
         attributes.put("endurance", 8);
         Encounter encounter = encounter(attributes, 7214513, Weather.NORMAL);
-        assertEquals(Result.VICTORY, encounter.outcome.result);
+        assertEquals(Result.VICTORY, encounter.outcome.result());
     }
 
     @Test
@@ -81,7 +81,7 @@ public class EncounterTest {
         attributes.put("agility", 8);
         attributes.put("endurance", 7);
         Encounter encounter = encounter(attributes, 8252096, Weather.NORMAL);
-        assertEquals(Result.VICTORY, encounter.outcome.result);
+        assertEquals(Result.VICTORY, encounter.outcome.result());
     }
 
     @Test
@@ -91,7 +91,7 @@ public class EncounterTest {
         attributes.put("agility", 5);
         attributes.put("endurance", 7);
         Encounter encounter = encounter(attributes, 7896598, Weather.NORMAL);
-        assertEquals(Result.VICTORY, encounter.outcome.result);
+        assertEquals(Result.VICTORY, encounter.outcome.result());
     }
 
     @Test
@@ -101,7 +101,7 @@ public class EncounterTest {
         attributes.put("agility", 4);
         attributes.put("endurance", 8);
         Encounter encounter = encounter(attributes, 896262, Weather.HOT);
-        assertEquals(Result.VICTORY, encounter.outcome.result);
+        assertEquals(Result.VICTORY, encounter.outcome.result());
     }
 
     @Test
@@ -111,7 +111,7 @@ public class EncounterTest {
         attributes.put("agility", 6);
         attributes.put("endurance", 8);
         Encounter encounter = encounter(attributes, 6829988, Weather.RAINY);
-        assertEquals(Result.VICTORY, encounter.outcome.result);
+        assertEquals(Result.VICTORY, encounter.outcome.result());
     }
 
     private Encounter encounter(ObjectNode attributes, int encounterId, Weather weather) throws NoSuchFieldException, IllegalAccessException, UnexpectedResult, UnirestException, IOException, CouldNotRank, CouldNotRank, CorrespondingDragonStrengthNotFound {
@@ -119,7 +119,7 @@ public class EncounterTest {
         knight.encounterId = encounterId;
         knight.name = "Sir. Wesley Fitzgerald of Quebec";
         Encounter encounter = new Encounter(knight, weather);
-        System.out.println(encounter.outcome.reason.asText());
+        System.out.println(encounter.outcome.reason().asText());
         System.out.println(encounter.dragon.payload());
         return encounter;
     }

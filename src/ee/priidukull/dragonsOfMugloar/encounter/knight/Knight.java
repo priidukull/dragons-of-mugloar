@@ -11,10 +11,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Knight {
-    public KnightAttribute attack;
-    public KnightAttribute armor;
-    public KnightAttribute agility;
-    public KnightAttribute endurance;
+    private KnightAttribute attack;
+    private KnightAttribute armor;
+    private KnightAttribute agility;
+    private KnightAttribute endurance;
     public String name;
     public int encounterId;
 

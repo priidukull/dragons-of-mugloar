@@ -19,9 +19,9 @@ public class InvasionOfKnights {
         int losses = 0;
         for (int i = 0; i < n; i++) {
             Encounter encounter = new Encounter(new EncounterDAO());
-            System.out.println(encounter.outcome().result);
-            System.out.println(encounter.outcome().reason.asText());
-            if (encounter.outcome().result.equals(Result.VICTORY)) {
+            System.out.println(encounter.outcome().result());
+            System.out.println(encounter.outcome().reason().asText());
+            if (encounter.outcome().result().equals(Result.VICTORY)) {
                 wins++;
             } else {
                 losses++;
