@@ -5,6 +5,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import dragonsOfMugloar.dao.EncounterDAO;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -19,20 +20,26 @@ class Knight {
 
     Knight() {}
 
-    Knight(EncounterDAO encounterDAO) throws UnirestException, IOException {
+    Knight(EncounterDAO encounterDAO) throws UnirestException, IOException, NoSuchFieldException, IllegalAccessException {
         JsonNode data = encounterDAO.knight();
         System.out.println("Encounter: " + data);
         JsonNode knight = data.get("knight");
-        this.attack = new Attribute("attack", knight.get("attack").asInt());
-        this.armor = new Attribute("armor", knight.get("armor").asInt());
-        this.agility = new Attribute("agility", knight.get("agility").asInt());
-        this.endurance = new Attribute("endurance", knight.get("endurance").asInt());
         this.name = knight.get("name").asText();
         this.encounterId = data.get("gameId").asInt();
+        addAttributes(knight);
+    }
+
+    void addAttributes(JsonNode knight) throws NoSuchFieldException, IllegalAccessException {
+        String[] attributes = {"attack", "armor", "agility", "endurance"};
+        for (String fieldName : attributes) {
+            Field field = getClass().getDeclaredField(fieldName);
+            int value = knight.get(fieldName).asInt();
+            field.set(this, new Attribute(fieldName, value));
+        }
         rankAttributes();
     }
 
-    void rankAttributes() {
+    private void rankAttributes() {
         List<Attribute> attrs = Arrays.asList(this.attack, this.armor, this.agility, this.endurance);
         Comparator<Attribute> comparator = Attribute::compareTo;
         attrs.sort(comparator);

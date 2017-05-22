@@ -26,7 +26,7 @@ class Dragon {
             this.clawSharpness = this.opposingKnight.armor.value() - 1;
         }
         if (this.opposingKnight.agility.isPrimary) {
-            this.wingStrength = this.opposingKnight.agility.value() + 1;
+            this.wingStrength = this.opposingKnight.agility.value() + 2;
         } else {
             this.wingStrength = this.opposingKnight.agility.value() -1;
         }

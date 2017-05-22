@@ -90,3 +90,12 @@ The first run of acceptance test resulted in 1/10 wins.
 
 ##### The fifth (unit-)test - winEncounterTwoTest()
 Randomly picked a Knight and will now create a unittest where the goal is to defeat that Knight.
+
+After solving this test, the acceptance test scored 6 wins of 10. Therefore it became necessary to run the acceptance test for more than 10 Encounters. Will try 100.
+
+Increased the number of Encounters to 100 and the result was 64 wins out of 36.
+
+##### The sixth (unit-)test - winEncounterThreeTest()
+Randomly picked another Knight which used to defeat the Dragon which my algoritm chose, made a unit test for fighting against that Knight, made the unit test pass.
+
+After making that test green, Dragons won 88 Encounters out of 100.

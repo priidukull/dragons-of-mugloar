@@ -26,7 +26,7 @@ public class Encounter {
         resolve();
     }
 
-    public Encounter(EncounterDAO encounterDAO) throws IOException, UnirestException, UnexpectedResult {
+    public Encounter(EncounterDAO encounterDAO) throws IOException, UnirestException, UnexpectedResult, NoSuchFieldException, IllegalAccessException {
         this.dao = encounterDAO;
         this.knight = new Knight(encounterDAO);
         this.id = this.knight.encounterId;

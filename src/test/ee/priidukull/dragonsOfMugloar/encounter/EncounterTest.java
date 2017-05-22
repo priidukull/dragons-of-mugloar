@@ -1,13 +1,30 @@
 package dragonsOfMugloar.encounter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import dragonsOfMugloar.dao.MockEncounterDAO;
 import dragonsOfMugloar.encounter.outcome.Result;
+import dragonsOfMugloar.encounter.outcome.UnexpectedResult;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
 public class EncounterTest {
+    ObjectNode attributes;
+    Knight knight;
+
+    @Before
+    public void setUp() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        this.attributes = mapper.createObjectNode();
+        this.knight = new Knight();
+    }
+
     @Test
     public void newEncounterTest() throws Exception {
         Encounter encounter = new Encounter(new MockEncounterDAO());
@@ -41,31 +58,40 @@ public class EncounterTest {
 
     @Test
     public void winEncounterTest() throws Exception {
-        Knight knight = new Knight();
-        knight.encounterId = 8396126;
-        knight.attack = new Attribute("attack", 7);
-        knight.armor = new Attribute("armor", 2);
-        knight.agility = new Attribute("agility", 6);
-        knight.endurance = new Attribute("endurance", 5);
-        knight.rankAttributes();
-        Encounter encounter = new Encounter(knight, Weather.NORMAL);
-        System.out.println(encounter.outcome.reason.asText());
-        System.out.println(encounter.dragon.payload());
+        attributes.put("attack", 7);
+        attributes.put("armor", 2);
+        attributes.put("agility", 6);
+        attributes.put("endurance", 5);
+        Encounter encounter = encounter(attributes, 8396126);
         assertEquals(Result.VICTORY, encounter.outcome.result);
     }
 
     @Test
     public void winEncounterTwoTest() throws Exception {
-        Knight knight = new Knight();
-        knight.encounterId = 7214513;
-        knight.attack = new Attribute("attack", 0);
-        knight.armor = new Attribute("armor", 7);
-        knight.agility = new Attribute("agility", 5);
-        knight.endurance = new Attribute("attack", 8);
-        knight.rankAttributes();
+        attributes.put("attack", 0);
+        attributes.put("armor", 7);
+        attributes.put("agility", 5);
+        attributes.put("endurance", 8);
+        Encounter encounter = encounter(attributes, 7214513);
+        assertEquals(Result.VICTORY, encounter.outcome.result);
+    }
+
+    @Test
+    public void winEncounterThreeTest() throws Exception {
+        attributes.put("attack", 0);
+        attributes.put("armor", 5);
+        attributes.put("agility", 8);
+        attributes.put("endurance", 7);
+        Encounter encounter = encounter(attributes, 8252096);
+        assertEquals(Result.VICTORY, encounter.outcome.result);
+    }
+
+    private Encounter encounter(ObjectNode attributes, int encounterId) throws NoSuchFieldException, IllegalAccessException, UnexpectedResult, UnirestException, IOException {
+        knight.addAttributes(attributes);
+        knight.encounterId = encounterId;
         Encounter encounter = new Encounter(knight, Weather.NORMAL);
         System.out.println(encounter.outcome.reason.asText());
         System.out.println(encounter.dragon.payload());
-        assertEquals(Result.VICTORY, encounter.outcome.result);
+        return encounter;
     }
 }
