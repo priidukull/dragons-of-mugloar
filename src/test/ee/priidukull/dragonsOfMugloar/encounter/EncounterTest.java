@@ -86,6 +86,16 @@ public class EncounterTest {
         assertEquals(Result.VICTORY, encounter.outcome.result);
     }
 
+    @Test
+    public void winEncounterFourTest() throws Exception {
+        attributes.put("attack", 8);
+        attributes.put("armor", 0);
+        attributes.put("agility", 5);
+        attributes.put("endurance", 7);
+        Encounter encounter = encounter(attributes, 7896598);
+        assertEquals(Result.VICTORY, encounter.outcome.result);
+    }
+
     private Encounter encounter(ObjectNode attributes, int encounterId) throws NoSuchFieldException, IllegalAccessException, UnexpectedResult, UnirestException, IOException {
         knight.addAttributes(attributes);
         knight.encounterId = encounterId;

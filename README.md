@@ -99,3 +99,8 @@ Increased the number of Encounters to 100 and the result was 64 wins out of 36.
 Randomly picked another Knight which used to defeat the Dragon which my algoritm chose, made a unit test for fighting against that Knight, made the unit test pass.
 
 After making that test green, Dragons won 88 Encounters out of 100.
+
+##### The seventh (unit-)test - winEncounterFourTest()
+Wrote a test to deal with the case of a Dragon having anorexia. And made it pass.
+
+After making that test green, Dragons won 85 Encounters out of 100. Appearently there was no overall improvement in the performance of dragons.
