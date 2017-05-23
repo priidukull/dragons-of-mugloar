@@ -1,3 +1,8 @@
+# Running this program (instructions were tested on a Mac)
+    $ git clone https://github.com/priidukull/dragons-of-mugloar.git
+    $ mvn clean install
+    $ java -jar target/dragonsOfMugloar-1.0.jar
+
 # Solving Dragons of Mugloar
 ### Initial thoughts
 ##### API research
