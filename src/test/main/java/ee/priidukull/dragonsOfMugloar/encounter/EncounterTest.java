@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import dragonsOfMugloar.dao.MockEncounterDAO;
-import dragonsOfMugloar.encounter.knight.CorrespondingDragonStrengthNotFound;
 import dragonsOfMugloar.encounter.knight.CouldNotRank;
 import dragonsOfMugloar.encounter.knight.Knight;
+import dragonsOfMugloar.encounter.knight.MatchingDragonStrengthNotFound;
 import dragonsOfMugloar.encounter.outcome.Result;
 import dragonsOfMugloar.encounter.outcome.UnexpectedResult;
 import org.junit.Assert;
@@ -114,7 +114,7 @@ public class EncounterTest {
         assertEquals(Result.VICTORY, encounter.outcome.result());
     }
 
-    private Encounter encounter(ObjectNode attributes, int encounterId, Weather weather) throws NoSuchFieldException, IllegalAccessException, UnexpectedResult, UnirestException, IOException, CouldNotRank, CouldNotRank, CorrespondingDragonStrengthNotFound {
+    private Encounter encounter(ObjectNode attributes, int encounterId, Weather weather) throws NoSuchFieldException, IllegalAccessException, UnexpectedResult, UnirestException, IOException, CouldNotRank, MatchingDragonStrengthNotFound {
         knight.addAttributes(attributes);
         knight.encounterId = encounterId;
         knight.name = "Sir. Wesley Fitzgerald of Quebec";

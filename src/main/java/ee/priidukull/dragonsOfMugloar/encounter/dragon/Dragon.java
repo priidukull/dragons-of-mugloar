@@ -2,8 +2,8 @@ package dragonsOfMugloar.encounter.dragon;
 
 import dragonsOfMugloar.encounter.Encounter;
 import dragonsOfMugloar.encounter.Weather;
-import dragonsOfMugloar.encounter.knight.CorrespondingDragonStrengthNotFound;
 import dragonsOfMugloar.encounter.knight.KnightAttribute;
+import dragonsOfMugloar.encounter.knight.MatchingDragonStrengthNotFound;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -18,7 +18,7 @@ public class Dragon {
     private List<KnightAttribute> opponentAttributes;
     private Weather weather;
 
-    public Dragon(Encounter encounter) throws IllegalAccessException, CorrespondingDragonStrengthNotFound, NoSuchFieldException {
+    public Dragon(Encounter encounter) throws IllegalAccessException, MatchingDragonStrengthNotFound, NoSuchFieldException {
         this.opponentAttributes = encounter.knight().attributesInDescendingOrder();
         this.weather = encounter.weather();
         buildDragon();
@@ -50,26 +50,26 @@ public class Dragon {
         assignValueToField("scaleThickness", 5);
     }
 
-    private void decideStrength(int priority, int modifier) throws NoSuchFieldException, CorrespondingDragonStrengthNotFound, IllegalAccessException {
+    private void decideStrength(int priority, int modifier) throws NoSuchFieldException, MatchingDragonStrengthNotFound, IllegalAccessException {
         KnightAttribute attributeToCounter = this.opponentAttributes.get(priority);
         int newValue = Math.max(attributeToCounter.value() + modifier, 0);
         assignValueToField(attributeToCounter.matchingDragonStrength(), newValue);
     }
 
-    private void decideFinal(int priority) throws CorrespondingDragonStrengthNotFound, NoSuchFieldException, IllegalAccessException {
+    private void decideFinal(int priority) throws MatchingDragonStrengthNotFound, NoSuchFieldException, IllegalAccessException {
         KnightAttribute attr = this.opponentAttributes.get(priority);
         int newValue = 20 - (this.scaleThickness + this.clawSharpness + this.wingStrength + this.fireBreath);
         assignValueToField(attr.matchingDragonStrength(), newValue);
     }
 
-    private void buildNormalDragon() throws NoSuchFieldException, CorrespondingDragonStrengthNotFound, IllegalAccessException {
+    private void buildNormalDragon() throws NoSuchFieldException, MatchingDragonStrengthNotFound, IllegalAccessException {
         decideStrength(0, 2);
         decideStrength(3, -1);
         decideStrength(2, 0);
         decideFinal(1);
     }
 
-    private void buildDragon() throws CorrespondingDragonStrengthNotFound, NoSuchFieldException, IllegalAccessException {
+    private void buildDragon() throws MatchingDragonStrengthNotFound, NoSuchFieldException, IllegalAccessException {
         if (this.weather == Weather.HOT) {
             buildZenDragon();
         } else if (this.weather == Weather.RAINY) {
