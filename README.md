@@ -116,3 +116,10 @@ After changing our Dragon building algorithms to build only very balanced and Ze
 We are still losing Dragons when it's rainy. Will write a test to address that weather.
 
 Wrote the test case and solved it. Now we have come to the point where we only lose Dragons to storm about which we can do nothing.
+
+##### Dealing with Exceptions
+I have decided to deal with Exceptions in the most robust way possible. All Exceptions will be thrown and caught in the main method at the end of processing each Encounter. 
+
+In principle, no exceptions should occur when running this software (assuming API uptime of 100%). However, if there is a freak incident which causes processing of an Encounter to fail, I would still like to see other Encounters processed as usual. 
+
+
